@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prashant Singh — SFF Writer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:       #1a1714;
+      --paper:     #f5f2ee;
+      --muted:     #8a8178;
+      --accent:    #7c3d2e;
+      --line:      #ddd8d1;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --mono:      'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Nav ──────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4vw;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-name {
+      font-size: 0.9rem;
+      font-family: var(--mono);
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── Hero ─────────────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 70px;
+    }
+
+    .hero-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 6rem 4vw 6rem 8vw;
+    }
+
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.4rem;
+    }
+
+    h1 {
+      font-size: clamp(3.2rem, 6vw, 5.6rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.6rem;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 34ch;
+      line-height: 1.8;
+      margin-bottom: 2.8rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.8rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1px solid var(--ink);
+      color: var(--ink);
+      background: transparent;
+      transition: background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+
+    .btn:hover { background: var(--ink); color: var(--paper); }
+
+    .btn-filled {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .btn-filled:hover { background: var(--accent); border-color: var(--accent); }
+
+    .hero-image-wrap {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      filter: grayscale(18%) contrast(1.04);
+    }
+
+    .hero-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, var(--paper) 0%, transparent 8%);
+      pointer-events: none;
+    }
+
+    /* ── Section base ─────────────────────────────── */
+    section {
+      padding: 7rem 8vw;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 2rem;
+    }
+
+    h2 em { font-style: italic; }
+
+    p { font-weight: 300; max-width: 62ch; }
+
+    /* ── About ────────────────────────────────────── */
+    #about {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 6vw;
+      align-items: start;
+    }
+
+    .about-meta {
+      padding-top: 0.4rem;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .meta-item:first-child { border-top: 1px solid var(--line); }
+
+    .meta-key {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .meta-val {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    .about-body p + p { margin-top: 1.2rem; }
+
+    /* ── Current Project ──────────────────────────── */
+    #project {
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    #project .section-label { color: #c87b63; }
+
+    #project h2 { color: var(--paper); }
+
+    #project .project-title {
+      font-size: clamp(2.6rem, 5vw, 4.4rem);
+      font-weight: 300;
+      font-style: italic;
+      letter-spacing: 0.02em;
+      color: var(--paper);
+      line-height: 1.05;
+      margin-bottom: 0.4rem;
+    }
+
+    .project-subtitle {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #c87b63;
+      margin-bottom: 2.6rem;
+    }
+
+    .logline-wrap {
+      border-left: 2px solid #c87b63;
+      padding-left: 2rem;
+      max-width: 58ch;
+    }
+
+    .logline-wrap p {
+      color: #d9d2c8;
+      font-size: 1.15rem;
+      font-style: italic;
+      line-height: 1.85;
+      max-width: unset;
+    }
+
+    /* ── Quote ────────────────────────────────────── */
+    #quote {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 8vw;
+    }
+
+    .quote-inner { max-width: 700px; }
+
+    blockquote {
+      font-size: clamp(1.55rem, 3vw, 2.4rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.4;
+      color: var(--ink);
+      position: relative;
+    }
+
+    blockquote::before {
+      content: '\201C';
+      font-size: 8rem;
+      line-height: 0;
+      position: absolute;
+      top: 2.2rem;
+      left: -3rem;
+      color: var(--line);
+      font-style: normal;
+    }
+
+    cite {
+      display: block;
+      margin-top: 1.6rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-style: normal;
+    }
+
+    /* ── Short Story ──────────────────────────────── */
+    #story {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6vw;
+      align-items: center;
+    }
+
+    .story-visual {
+      aspect-ratio: 3/4;
+      background: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 3px,
+        rgba(255,255,255,0.02) 3px,
+        rgba(255,255,255,0.02) 4px
+      );
+    }
+
+    .story-visual-label {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #c87b63;
+      margin-bottom: 1.4rem;
+      position: relative;
+    }
+
+    .story-title-display {
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--paper);
+      line-height: 1.3;
+      position: relative;
+    }
+
+    .story-divider {
+      width: 2rem;
+      height: 1px;
+      background: #c87b63;
+      margin: 1.8rem auto;
+      position: relative;
+    }
+
+    .story-free-tag {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      position: relative;
+    }
+
+    .story-body { padding: 1rem 0; }
+
+    .story-body p { margin-bottom: 2rem; color: var(--muted); font-size: 1rem; }
+
+    /* ── Contact ──────────────────────────────────── */
+    #contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6vw;
+      align-items: start;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .contact-link-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--ink);
+      transition: padding-left 0.2s, color 0.2s;
+    }
+
+    .contact-link-row:first-child { border-top: 1px solid var(--line); }
+
+    .contact-link-row:hover {
+      padding-left: 0.5rem;
+      color: var(--accent);
+    }
+
+    .contact-link-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .contact-link-value {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .arrow { font-size: 0.8rem; color: var(--line); transition: color 0.2s; }
+    .contact-link-row:hover .arrow { color: var(--accent); }
+
+    /* ── Footer ───────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 2rem 8vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      max-width: unset;
+    }
+
+    /* ── Responsive ───────────────────────────────── */
+    @media (max-width: 860px) {
+      nav { padding: 1rem 5vw; }
+
+      .nav-links { gap: 1.4rem; }
+
+      #hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 55vw;
+        min-height: unset;
+      }
+
+      .hero-text {
+        padding: 5rem 6vw 3rem;
+        order: 1;
+      }
+
+      .hero-image-wrap {
+        order: 2;
+      }
+
+      .hero-image-overlay {
+        background: linear-gradient(to bottom, var(--paper) 0%, transparent 10%);
+      }
+
+      section { padding: 5rem 6vw; }
+
+      #about, #story, #contact {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      blockquote::before {
+        left: -1rem;
+        font-size: 5rem;
+        top: 1.5rem;
+      }
+
+      .story-visual {
+        aspect-ratio: 16/9;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .nav-links { display: none; }
+
+      h1 { font-size: 2.8rem; }
+
+      blockquote { font-size: 1.4rem; }
+      blockquote::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ── -->
+  <nav>
+    <a href="#hero" class="nav-name">Prashant Singh</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#project">Work</a></li>
+      <li><a href="#story">Story</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section id="hero">
+    <div class="hero-text">
+      <span class="hero-label">SFF Writer · Muzaffarpur, India</span>
+      <h1>Prashant<br /><em>Singh</em></h1>
+      <p class="hero-desc">
+        Speculative fiction writer working at the intersection of dark fantasy, myth, and magic. Currently querying adult dark fantasy and building something new.
+      </p>
+      <div class="hero-cta">
+        <a href="#project" class="btn btn-filled">Current Project</a>
+        <a href="#story" class="btn">Free Short Story</a>
+      </div>
+    </div>
+    <div class="hero-image-wrap">
+      <img src="profile.jpg" alt="Prashant Singh" />
+      <div class="hero-image-overlay"></div>
+    </div>
+  </section>
+
+  <!-- ── About ── -->
+  <section id="about">
+    <div class="about-body">
+      <span class="section-label">About</span>
+      <h2>The writer<br /><em>behind the words</em></h2>
+      <p>
+        I'm an SFF writer based in Muzaffarpur, Bihar, India. I've written middle-grade novels previously and have since moved into darker, more complex territory — adult fantasy with teeth.
+      </p>
+      <p style="margin-top:1.2rem">
+        Right now I'm querying <em>Grotesqueen</em> (GQ), a dark adult fantasy, while simultaneously building a new adult fantasy world from the ground up.
+      </p>
+      <p style="margin-top:1.2rem">
+        When I'm not writing, I'm teaching myself to code. I've finished JavaScript and I'm currently working through ReactJS — because apparently one obsessive craft isn't enough.
+      </p>
+    </div>
+    <div class="about-meta">
+      <div class="meta-item">
+        <span class="meta-key">Location</span>
+        <span class="meta-val">Muzaffarpur, Bihar, India</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-key">Genre</span>
+        <span class="meta-val">SFF — Speculative Fiction &amp; Fantasy</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-key">Previous Work</span>
+        <span class="meta-val">Middle-grade novels</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-key">Currently Querying</span>
+        <span class="meta-val">Grotesqueen (dark adult fantasy)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-key">Also Working On</span>
+        <span class="meta-val">An adult fantasy (WIP)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-key">Currently Learning</span>
+        <span class="meta-val">ReactJS (after JavaScript)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Current Project ── -->
+  <section id="project">
+    <span class="section-label">Current Project</span>
+    <p class="project-title">Grotesqueen</p>
+    <p class="project-subtitle">Dark Adult Fantasy &nbsp;·&nbsp; Currently Querying</p>
+    <div class="logline-wrap">
+      <p>
+        When a hunted blood mage teams up with a corpse-bound god to kill the lord who murdered her siblings, she accidentally creates a new magic that scatters the god across the dead — triggering an undead uprising she must stop before innocent children burn for her revenge.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Quote ── -->
+  <section id="quote">
+    <div class="quote-inner">
+      <blockquote>
+        In pursuit of the unknown, we're doomed to stay one step behind.
+      </blockquote>
+      <cite>— Prashant Singh</cite>
+    </div>
+  </section>
+
+  <!-- ── Short Story ── -->
+  <section id="story">
+    <div class="story-visual">
+      <span class="story-visual-label">Free Short Story</span>
+      <p class="story-title-display">a tree fell<br />and no one<br />saw</p>
+      <div class="story-divider"></div>
+      <span class="story-free-tag">Free to Read</span>
+    </div>
+    <div class="story-body">
+      <span class="section-label">Short Fiction</span>
+      <h2>A gift<br /><em>from the page</em></h2>
+      <p>
+        A short story, free for anyone to read. Download it, keep it, share it — no strings attached.
+      </p>
+      <a href="a-tree-fell-and-no-one-saw.docx" download class="btn btn-filled">
+        Download — Free
+      </a>
+    </div>
+  </section>
+
+  <!-- ── Contact ── -->
+  <section id="contact">
+    <div>
+      <span class="section-label">Contact</span>
+      <h2>Find me<br /><em>out there</em></h2>
+      <p>
+        Whether you're a reader, editor, or fellow writer — feel free to reach out. The best place to find me is on X, or just drop an email.
+      </p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:prax.pks@gmail.com" class="contact-link-row">
+        <span class="contact-link-label">Email</span>
+        <span class="contact-link-value">prax.pks@gmail.com</span>
+        <span class="arrow">→</span>
+      </a>
+      <a href="https://x.com/itsprax1" target="_blank" rel="noopener" class="contact-link-row">
+        <span class="contact-link-label">X / Twitter</span>
+        <span class="contact-link-value">@itsprax1</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <p>© Prashant Singh</p>
+    <p>Muzaffarpur, Bihar, India</p>
+  </footer>
+
+</body>
+</html>
